@@ -1,10 +1,13 @@
 BINARY=idlefetch
-BUILD_FLAGS=--release
-all: build
+all: dev
 
-build:
-	@cargo build $(BUILD_FLAGS)
+release:
+	@cargo build --release 
 	@cp ./target/release/$(BINARY) ./bin/$(BINARY)
+
+dev:
+	@cargo build
+	@cp ./target/debug/$(BINARY) ./bin/$(BINARY)
 
 check:
 	@cargo fmt
