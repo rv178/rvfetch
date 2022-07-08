@@ -6,9 +6,11 @@ Simple fetch utility, I was just bored
 
 ### Compiling
 
+You can compile it using `cargo` or via [baker](https://github.com/rv178/baker).
+
 ```
-make setup
-make release
+bake setup
+bake release
 ```
 
 A binary will be copied to `./bin/idlefetch`
