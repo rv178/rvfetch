@@ -49,10 +49,10 @@ fn main() {
     field!(" ", mem_str);
     fields.push(format!("{}└──────────────────────────────────┘{}", gray, reset));
 
+    print!("\n");
     for i in 0..moon_art.len() {
         print!("{}{}{}", yellow, moon_art[i], reset);
         print!("{}", fields[i]);
-
         print!("\n");
     }
 }
