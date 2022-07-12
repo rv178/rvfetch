@@ -20,16 +20,15 @@ fn main() {
     sys.refresh_all();
 
     let mem_str = format!("{} MB / {} MB", sys.used_memory() / 1000, sys.total_memory() / 1000);
-    let moon_art = format!(
-        "     _.._\t
+    let moon_art = "     _.._\t
   .' .-'`\t
  /  /     \t
  |  |     \t
  \\  '.___.;  \t
   '._  _.' \t
-\t\t"
-    );
-    let moon_art: Vec<&str> = moon_art.split("\n").collect::<Vec<&str>>();
+\t\t";
+
+    let moon_art: Vec<&str> = moon_art.split('\n').collect::<Vec<&str>>();
 
     let hostname = format!(
         "{}{}{}@{}{}{}",
@@ -49,10 +48,10 @@ fn main() {
     field!(" ", mem_str);
     fields.push(format!("{}└──────────────────────────────────┘{}", gray, reset));
 
-    print!("\n");
+    println!();
     for i in 0..moon_art.len() {
         print!("{}{}{}", yellow, moon_art[i], reset);
         print!("{}", fields[i]);
-        print!("\n");
+        println!();
     }
 }
