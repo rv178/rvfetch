@@ -1,8 +1,8 @@
-# IdleFetch
+# rvfetch
 
 Simple fetch utility, I was just bored
 
-![Alt](https://media.discordapp.net/attachments/985433521084563486/995958893941366804/unknown.png)
+![Alt](https://media.discordapp.net/attachments/985433521084563486/998161285252395108/unknown.png)
 
 ### Installing
 
@@ -16,7 +16,7 @@ bake
 sudo bake install
 ```
 
-A binary will be copied to `./bin/idlefetch`
+A binary will be copied to `./bin/rvfetch`
 
 ### Uninstalling
 

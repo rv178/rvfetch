@@ -81,13 +81,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "idlefetch"
-version = "0.1.0"
-dependencies = [
- "sysinfo",
-]
-
-[[package]]
 name = "libc"
 version = "0.2.126"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -149,6 +142,13 @@ dependencies = [
  "crossbeam-deque",
  "crossbeam-utils",
  "num_cpus",
+]
+
+[[package]]
+name = "rvfetch"
+version = "0.1.0"
+dependencies = [
+ "sysinfo",
 ]
 
 [[package]]

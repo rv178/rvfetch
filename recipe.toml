@@ -1,5 +1,5 @@
 [env]
-BIN_NAME="idlefetch"
+BIN_NAME="rvfetch"
 COMPILER_FLAGS="--release"
 INSTALL_PREFIX="/usr/bin"
 
