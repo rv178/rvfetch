@@ -1,4 +1,4 @@
-use std::{env, process::exit};
+use std::{cmp::Ordering, env, process::exit};
 use sysinfo::{System, SystemExt};
 
 fn main() {
@@ -21,27 +21,17 @@ fn main() {
     let moon_art: Vec<&str> = moon_art.split('\n').collect::<Vec<&str>>();
     let arch_art: Vec<&str> = arch_art.split('\n').collect::<Vec<&str>>();
 
-    let args: Vec<String> = env::args().collect();
-
     let gray = "\x1b[38;5;8m";
     let green = "\x1b[32m";
     let yellow = "\x1b[33m";
     let blue = "\x1b[34m";
     let reset = "\x1b[0m";
 
-    let mut fields: Vec<String> = Vec::new();
-
-    macro_rules! field {
-        ($x:expr, $y:expr) => {
-            fields.push(format!("  {}{}{} : {}", blue, $x, reset, $y))
-        };
-    }
-
     let mut sys = System::new_all();
     sys.refresh_all();
 
+    let mut fields: Vec<String> = Vec::new();
     let mem_str = format!("{} MB / {} MB", sys.used_memory() / 1000, sys.total_memory() / 1000);
-
     let hostname = format!(
         "{}{}{}@{}{}{}",
         green,
@@ -52,6 +42,12 @@ fn main() {
         reset
     );
 
+    macro_rules! field {
+        ($x:expr, $y:expr) => {
+            fields.push(format!("  {}{}{} : {}", blue, $x, reset, $y))
+        };
+    }
+
     field!(" ", hostname);
     fields.push(format!("{}┌──────────────────────────────────┐{}", gray, reset));
     field!(" ", sys.name().expect("Failed to get OS name."));
@@ -60,8 +56,9 @@ fn main() {
     field!(" ", mem_str);
     fields.push(format!("{}└──────────────────────────────────┘{}", gray, reset));
 
-    if args.len() > 1 {
-        match args[1].as_str() {
+    let args: Vec<String> = env::args().collect();
+    match args.len().cmp(&1) {
+        Ordering::Greater => match args[1].as_str() {
             "-h" | "--help" => {
                 help();
             }
@@ -77,13 +74,17 @@ fn main() {
                 println!("Invalid option '{}'.", args[1]);
                 exit(1);
             }
-        }
-    } else if args.len() == 1 {
-        println!();
-        for i in 0..arch_art.len() {
-            print!("{}{}{}", blue, arch_art[i], reset);
-            print!("{}", fields[i]);
+        },
+        Ordering::Equal => {
             println!();
+            for i in 0..arch_art.len() {
+                print!("{}{}{}", blue, arch_art[i], reset);
+                print!("{}", fields[i]);
+                println!();
+            }
+        }
+        Ordering::Less => {
+            exit(1);
         }
     }
 }
