@@ -1,5 +1,5 @@
 use std::{cmp::Ordering, env, process::exit};
-use sysinfo::{System, SystemExt};
+use sysinfo::{CpuExt, System, SystemExt};
 
 fn main() {
     let moon_art = "     _.._\t
@@ -8,6 +8,8 @@ fn main() {
  |  |     \t
  \\  '.___.;  \t
   '._  _.' \t
+\t\t
+\t\t
 \t\t";
 
     let arch_art = "       .\t
@@ -16,7 +18,9 @@ fn main() {
     /^.   \\\t
    /  .-.  \\\t
   /  (   ) _\\\t
- /.^       ^.\\\t";
+ /.^       ^.\\\t
+\t\t
+\t\t";
 
     let moon_art: Vec<&str> = moon_art.split('\n').collect::<Vec<&str>>();
     let arch_art: Vec<&str> = arch_art.split('\n').collect::<Vec<&str>>();
@@ -31,7 +35,6 @@ fn main() {
     sys.refresh_all();
 
     let mut fields: Vec<String> = Vec::new();
-    let mem_str = format!("{} MB / {} MB", sys.used_memory() / 1000, sys.total_memory() / 1000);
     let hostname = format!(
         "{}{}{}@{}{}{}",
         green,
@@ -49,12 +52,16 @@ fn main() {
     }
 
     field!(" ", hostname);
-    fields.push(format!("{}┌──────────────────────────────────┐{}", gray, reset));
     field!(" ", sys.name().expect("Failed to get OS name."));
     field!(" ", sys.kernel_version().expect("Failed to get kernel info."));
+    field!(" ", format!("{} hours, {} mins", sys.uptime() / 3600, (sys.uptime() % 3600) / 60));
     field!(" ", env::var("SHELL").expect("Failed to get shell info."));
-    field!(" ", mem_str);
-    fields.push(format!("{}└──────────────────────────────────┘{}", gray, reset));
+    field!("󰍛 ", sys.cpus()[0].brand());
+    field!(" ", format!("{} MB / {} MB", sys.used_memory() / 1000, sys.total_memory() / 1000));
+
+    let n = fields.iter().map(|s| s.len()).max().unwrap() - 13;
+    fields.insert(1, format!("{}┌{}┐{}", gray, "─".repeat(n), reset));
+    fields.push(format!("{}└{}┘{}", gray, "─".repeat(n), reset));
 
     let args: Vec<String> = env::args().collect();
     match args.len().cmp(&1) {
